@@ -1,5 +1,10 @@
 package com.example.minesweepr;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Scenario {
     
     private int difficulty;
@@ -19,6 +24,31 @@ public class Scenario {
         this.numberOfMines = numberOfMines;
         this.timeInSeconds = timeInSeconds;
         this.hyperMine = hyperMine;
+    }
+
+    public Scenario(String filename) {
+
+        ArrayList<String> settings = new ArrayList<String>();
+
+        try {
+            File file = new File(filename);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String data = scanner.nextLine();
+                settings.add(data);
+            }
+            scanner.close();
+
+            this.difficulty = Integer.parseInt(settings.get(0));
+            this.numberOfMines = Integer.parseInt(settings.get(1));
+            this.timeInSeconds = Integer.parseInt(settings.get(2));
+            this.hyperMine = Boolean.parseBoolean(settings.get(3));
+
+
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public int getDifficulty() {
@@ -51,6 +81,13 @@ public class Scenario {
 
     public void setHyperMine(boolean hyperMine) {
         this.hyperMine = hyperMine;
+    }
+
+    public void test() {
+        System.out.println(this.getDifficulty());
+        System.out.println(this.getNumberOfMines());
+        System.out.println(this.getTimeInSeconds());
+        System.out.println(this.getHyperMine());
     }
 
 }
