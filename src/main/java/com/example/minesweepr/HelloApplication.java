@@ -16,7 +16,6 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
-import com.example.minesweepr.ReadFile;
 
 public class HelloApplication extends Application {
 
@@ -91,9 +90,10 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
-        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/level_1_example.txt";
-        Scenario scenario = new Scenario(path);
+    public static void main(String[] args) throws InvalidValueException {
+        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/";
+        String filename = path + "invalid_range_example.txt";
+        Scenario scenario = new Scenario(filename);
         scenario.test();
         launch();
     }
