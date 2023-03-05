@@ -136,9 +136,11 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
-        ReadFile readfile = new ReadFile();
-        readfile.read("/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/level_1_example.txt");
+    public static void main(String[] args) throws InvalidValueException {
+        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/";
+        String filename = path + "invalid_range_example.txt";
+        Scenario scenario = new Scenario(filename);
+        scenario.test();
         launch();
     }
 }
