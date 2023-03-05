@@ -54,14 +54,12 @@ public class HelloApplication extends Application {
         p.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler <MouseEvent> (){
             @Override
             public void handle(MouseEvent me){
-                System.out.println(me.getX());
                 double posX = me.getX();
                 double posY = me.getY();
     
                 int colX = (int)(posX / width);
                 int colY = (int) (posY / width);
                 
-                System.out.println();
 
                 if (me.getButton() == MouseButton.PRIMARY) {
                     rec[colX][colY].setFill(Color.RED);
