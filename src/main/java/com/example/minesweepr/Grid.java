@@ -51,7 +51,7 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
-                    cell[i][j].setFill(Color.BLACK);
+                    //cell[i][j].setFill(Color.BLACK);
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
@@ -78,12 +78,13 @@ public class Grid extends Pane {
                                 cell[i+1][j-1].getStatus() + cell[i+1][j].getStatus() + cell[i+1][j+1].getStatus() +
                                 cell[i][j+1].getStatus() + cell[i][j-1].getStatus());
                     }
-                    String str = val.toString();
-                    Text text = new Text(i * width + width/2, j * width + width/2, str);
-                    text.fontProperty().set(Font.font(20.0));
-                    text.fillProperty().set(Color.BLACK);
-                    cell[i][j].setAdjacent(text);
-                    p.getChildren().add(cell[i][j].getAdjacent());
+                    cell[i][j].setAdj(val);
+//                    String str = val.toString();
+//                    Text text = new Text(i * width + width/2, j * width + width/2, str);
+//                    text.fontProperty().set(Font.font(20.0));
+//                    text.fillProperty().set(Color.BLACK);
+//                    cell[i][j].setAdjacent(text);
+//                    p.getChildren().add(cell[i][j].getAdjacent());
                 }
             }
         }
@@ -101,10 +102,8 @@ public class Grid extends Pane {
                 //System.out.println();
 
                 if (me.getButton() == MouseButton.PRIMARY) {
-                    // If the cell is closed open it
-                    if(!cell[colX][colY].isOpened()) {
-                        cell[colX][colY].setOpened(true);
-                    }
+                    //Cell currCell = cell[colX][colY];
+                    openCell(colX, colY, cell, width, p, n);
                 }
                 else if (me.getButton() == MouseButton.SECONDARY) {
                     if (!cell[colX][colY].isFlag()) {           // if it is not flagged
@@ -119,5 +118,40 @@ public class Grid extends Pane {
         });
 
         return p;
+    }
+
+    private static void openCell(int colX, int colY, Cell [][] c, double width, Pane p, int n) {
+        // If the cell is closed open it
+        if (colX < 0 || colY < 0 || colX > n-1 || colY > n-1 ) {        // if out of bounds
+            return;
+        } else {
+            if (!c[colX][colY].isOpened()) {
+                c[colX][colY].setOpened(true);
+                if (c[colX][colY].getStatus() == -1) {        // if we open a bomb
+
+                } else if (c[colX][colY].getStatus() == 0 && c[colX][colY].getAdj() == 0) {  // if it is a non-bomb cell with no adj bombs
+                    c[colX][colY].setFill(Color.GRAY);
+                    openCell(colX, colY - 1, c, width, p, n);
+                    openCell(colX, colY + 1, c, width, p, n);
+                    openCell(colX - 1, colY, c, width, p, n);
+                    openCell(colX + 1, colY, c, width, p, n);
+                    openCell(colX - 1, colY - 1, c, width, p, n);
+                    openCell(colX + 1, colY - 1, c, width, p, n);
+                    openCell(colX - 1, colY + 1, c, width, p, n);
+                    openCell(colX + 1, colY + 1, c, width, p, n);
+                } else {
+                    String str = c[colX][colY].getAdj().toString();
+                    Text text = new Text(colX * width + width / 2, colY * width + width / 2, str);
+                    text.fontProperty().set(Font.font(20.0));
+                    switch (c[colX][colY].getAdj()) {
+                        case 1 -> text.fillProperty().set(Color.BLUE);
+                        case 2 -> text.fillProperty().set(Color.GREEN);
+                        default -> text.fillProperty().set(Color.RED);
+                    }
+                    c[colX][colY].setAdjacent(text);
+                    p.getChildren().add(c[colX][colY].getAdjacent());
+                }
+            }
+        }
     }
 }

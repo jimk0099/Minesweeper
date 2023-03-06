@@ -6,10 +6,12 @@ import javafx.scene.text.Text;
 public class Cell extends Rectangle {
     private boolean flag;
     private boolean opened;
-    private Text adjacent;
-    private Integer status;         // 2: Hyperbomb, 1: bomb, 0: no bomb
+    private Integer adj;                // nearby bombs
+    private Text adjacent;          // adj in Text
+    private Integer status;         // -2: Hyperbomb, -1: bomb, 0: no bomb
 
     public Cell() {
+        this.adj = 0;
         this.adjacent = new Text();
         this.flag = false;
         this.opened = false;
@@ -46,5 +48,13 @@ public class Cell extends Rectangle {
 
     public void setAdjacent(Text adjacent) {
         this.adjacent = adjacent;
+    }
+
+    public Integer getAdj() {
+        return adj;
+    }
+
+    public void setAdj(int adj) {
+        this.adj = adj;
     }
 }
