@@ -2,9 +2,7 @@ package com.example.minesweepr;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -58,7 +56,7 @@ public class Grid extends Pane {
         }
 
         // Set status depending on the adjacent bombs
-        Integer val = 0;
+        int val;
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
@@ -95,24 +93,20 @@ public class Grid extends Pane {
             }
         }
 
-        p.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler <MouseEvent> (){
-            @Override
-            public void handle(MouseEvent me){
-                //System.out.println(me.getX());
-                double posX = me.getX();
-                double posY = me.getY();
+        p.setOnMouseClicked(me -> {
+            //System.out.println(me.getX());
+            double posX = me.getX();
+            double posY = me.getY();
 
-                int colX = (int)(posX / width);
-                int colY = (int) (posY / width);
+            int colX = (int) (posX / width);
+            int colY = (int) (posY / width);
 
-                //System.out.println();
+            //System.out.println();
 
-                if (me.getButton() == MouseButton.PRIMARY) {
-                    openCell(colX, colY, cell, width, p, n, flaggedCells);
-                }
-                else if (me.getButton() == MouseButton.SECONDARY) {
-                    flagCell(colX, colY, cell, p, flaggedCells);
-                }
+            if (me.getButton() == MouseButton.PRIMARY) {
+                openCell(colX, colY, cell, width, p, n, flaggedCells);
+            } else if (me.getButton() == MouseButton.SECONDARY) {
+                flagCell(colX, colY, cell, flaggedCells);
             }
         });
 
@@ -122,7 +116,7 @@ public class Grid extends Pane {
     private static void openCell(int colX, int colY, Cell [][] c, double width, Pane p, int n, IntegerProperty flaggedCells) {
         // If the cell is closed open it
         if (colX < 0 || colY < 0 || colX > n-1 || colY > n-1 ) {        // if out of bounds
-            return;
+
         } else {
             if (!c[colX][colY].isOpened()) {
                 if (c[colX][colY].isFlag()) {
@@ -159,7 +153,7 @@ public class Grid extends Pane {
         }
     }
 
-    private static void flagCell(int colX, int colY, Cell [][] c, Pane p, IntegerProperty flaggedCells) {
+    private static void flagCell(int colX, int colY, Cell [][] c, IntegerProperty flaggedCells) {
         if (c[colX][colY].isOpened()) {
 
         } else {

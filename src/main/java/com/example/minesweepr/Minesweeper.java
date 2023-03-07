@@ -24,9 +24,11 @@ public class Minesweeper extends Application {
         //FXMLLoader fxmlLoader = new FXMLLoader(Minesweeper.class.getResource("hello-view.fxml"));
         //Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         //Scene scene = new Scene(Grid.makeGrid(10), 640, 640);
+        int n = 10; //FIX THIS
         Grid grid = new Grid();
-        HBox hBox = new HBox(CustomMenu.makeMenu(), GameStatus.getGameStatus(grid));
-        VBox vbox = new VBox(hBox, grid.makeGrid(10));
+        GameStatus gameStatus = new GameStatus();
+        HBox hBox = new HBox(CustomMenu.makeMenu(), gameStatus.getMinesStatus(n), gameStatus.getFlagStatus(grid));
+        VBox vbox = new VBox(hBox, grid.makeGrid(n));
         stage.setTitle("Minesweeper!");
         stage.setScene(new Scene(vbox));
         stage.setResizable(false);
