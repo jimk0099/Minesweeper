@@ -13,8 +13,12 @@ import java.util.Random;
 public class Grid extends Pane {
 
     private final IntegerProperty flaggedCells;
+    private int mines;
+    private boolean maxFlags;
 
-    public Grid() {
+    public Grid(int mines) {
+        this.mines = mines;
+        this.maxFlags = false;
         this.flaggedCells = new SimpleIntegerProperty();
     }
 
@@ -29,7 +33,7 @@ public class Grid extends Pane {
         Cell [][] cell = new Cell [n][n];
 
         Random random = new Random();
-        int numberBombs = random.nextInt(9,12);
+//        int numberMines = random.nextInt(9,12);
 
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
@@ -46,7 +50,7 @@ public class Grid extends Pane {
 
         // Insert bombs
         int k = 0;
-        while(k < numberBombs) {
+        while(k < this.getMines()) {
             int randI = random.nextInt(n);
             int randJ = random.nextInt(n);
             if (cell[randI][randJ].getStatus() != -1) {     // if this is not a bomb
@@ -61,7 +65,7 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
-                    //cell[i][j].setFill(Color.BLACK);
+                    // cell[i][j].setFill(Color.BLACK);
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
@@ -113,7 +117,7 @@ public class Grid extends Pane {
         return p;
     }
 
-    private static void openCell(int colX, int colY, Cell [][] c, double width, Pane p, int n, IntegerProperty flaggedCells) {
+    private void openCell(int colX, int colY, Cell[][] c, double width, Pane p, int n, IntegerProperty flaggedCells) {
         // If the cell is closed open it
         if (colX < 0 || colY < 0 || colX > n-1 || colY > n-1 ) {        // if out of bounds
 
@@ -122,7 +126,7 @@ public class Grid extends Pane {
                 if (c[colX][colY].isFlag()) {
                     c[colX][colY].setFlag(false);
                     c[colX][colY].setFill(Color.WHITE);
-                    updateFlaggedCells(flaggedCells, -1);
+                    updateFlaggedCells(flaggedCells, -1, this.getMines());
                 }
                 c[colX][colY].setOpened(true);
                 if (c[colX][colY].getStatus() == -1) {                  // if we open a bomb
@@ -153,23 +157,45 @@ public class Grid extends Pane {
         }
     }
 
-    private static void flagCell(int colX, int colY, Cell [][] c, IntegerProperty flaggedCells) {
+    private void flagCell(int colX, int colY, Cell[][] c, IntegerProperty flaggedCells) {
         if (c[colX][colY].isOpened()) {
 
         } else {
             if (!c[colX][colY].isFlag()) {              // if it is not flagged
-                c[colX][colY].setFlag(true);
-                c[colX][colY].setFill(Color.YELLOW);
-                updateFlaggedCells(flaggedCells, 1);
+                if(!this.isMaxFlags()) {
+                    c[colX][colY].setFlag(true);
+                    c[colX][colY].setFill(Color.YELLOW);
+                    updateFlaggedCells(flaggedCells, 1, this.getMines());
+                    System.out.println(this.isMaxFlags());
+                }
             } else {                                    // if it is already flagged
                 c[colX][colY].setFlag(false);
                 c[colX][colY].setFill(Color.WHITE);
-                updateFlaggedCells(flaggedCells, -1);
+                updateFlaggedCells(flaggedCells, -1, this.getMines());
             }
         }
     }
 
-    private static void updateFlaggedCells(IntegerProperty flaggedCells, int amount) {
+    private void updateFlaggedCells(IntegerProperty flaggedCells, int amount, int mines) {
         flaggedCells.set(flaggedCells.get() + amount);
+
+        // Reached max flags?
+        this.setMaxFlags(flaggedCells.get() == mines);
+    }
+
+    public int getMines() {
+        return mines;
+    }
+
+    public void setMines(int mines) {
+        this.mines = mines;
+    }
+
+    public boolean isMaxFlags() {
+        return maxFlags;
+    }
+
+    public void setMaxFlags(boolean maxFlags) {
+        this.maxFlags = maxFlags;
     }
 }

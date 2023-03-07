@@ -9,19 +9,19 @@ import com.example.minesweepr.InvalidValueException;
 
 public class Scenario {
     
-    private int difficulty;
-    private int numberOfMines;
-    private int timeInSeconds;
-    private boolean hyperMine;
+    private Integer difficulty;
+    private Integer numberOfMines;
+    private Integer timeInSeconds;
+    private Integer hyperMine;          // 0 or 1
 
     public Scenario () {
         this.difficulty = 1;
         this.numberOfMines = 9;
         this.timeInSeconds = 180;
-        this.hyperMine = false;
+        this.hyperMine = 0;
     }
 
-    public Scenario(int difficulty, int numberOfMines, int timeInSeconds, boolean hyperMine) throws InvalidValueException {
+    public Scenario(Integer difficulty, Integer numberOfMines, Integer timeInSeconds, Integer hyperMine) throws InvalidValueException {
         this.setDifficulty(difficulty);
         this.setNumberOfMines(numberOfMines);
         this.setTimeInSeconds(timeInSeconds);
@@ -44,7 +44,7 @@ public class Scenario {
             this.setDifficulty(Integer.parseInt(settings.get(0)));
             this.setNumberOfMines(Integer.parseInt(settings.get(1)));
             this.setTimeInSeconds(Integer.parseInt(settings.get(2)));
-            this.setHyperMine(Boolean.parseBoolean(settings.get(3)));
+            this.setHyperMine(Integer.parseInt(settings.get(3)));
 
 
         } catch (FileNotFoundException e) {
@@ -53,19 +53,19 @@ public class Scenario {
         }
     }
 
-    public int getDifficulty() {
+    public Integer getDifficulty() {
         return this.difficulty;
     }
 
-    public int getNumberOfMines() {
+    public Integer getNumberOfMines() {
         return this.numberOfMines;
     }
 
-    public int getTimeInSeconds() {
+    public Integer getTimeInSeconds() {
         return this.timeInSeconds;
     }
 
-    public boolean getHyperMine() {
+    public Integer getHyperMine() {
         return this.hyperMine;
     }
 
@@ -118,14 +118,14 @@ public class Scenario {
         }
     }
 
-    public void setHyperMine(boolean hyperMine) throws InvalidValueException {
+    public void setHyperMine(int hyperMine) throws InvalidValueException {
         try {
             if(this.difficulty == 1) {
-                if(hyperMine) {
+                if(hyperMine != 0) {
                     throw new InvalidValueException();
                 }
             } else {
-                if(!hyperMine) {
+                if(hyperMine != 0 && hyperMine != 1) {
                     throw new InvalidValueException();
                 }            
             }
