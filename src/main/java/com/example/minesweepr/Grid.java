@@ -1,5 +1,7 @@
 package com.example.minesweepr;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -11,6 +13,8 @@ import javafx.scene.text.Text;
 import java.util.Random;
 
 public class Grid extends Pane {
+
+    protected static IntegerProperty flaggedCells = new SimpleIntegerProperty();
 
     public static Pane makeGrid(int n) {
         double width = 64;
@@ -28,7 +32,7 @@ public class Grid extends Pane {
                 cell[i][j].setY(j * width);
                 cell[i][j].setWidth(width);
                 cell[i][j].setHeight(width);
-                cell[i][j].setFill(null);
+                cell[i][j].setFill(Color.WHITE);
                 cell[i][j].setStroke(Color.BLACK);
                 p.getChildren().add(cell[i][j]);
             }
@@ -102,17 +106,10 @@ public class Grid extends Pane {
                 //System.out.println();
 
                 if (me.getButton() == MouseButton.PRIMARY) {
-                    //Cell currCell = cell[colX][colY];
                     openCell(colX, colY, cell, width, p, n);
                 }
                 else if (me.getButton() == MouseButton.SECONDARY) {
-                    if (!cell[colX][colY].isFlag()) {           // if it is not flagged
-                        cell[colX][colY].setFlag(true);
-                        cell[colX][colY].setFill(Color.YELLOW);
-                    } else {                                    // if it is already flagged
-                        cell[colX][colY].setFlag(false);
-                        cell[colX][colY].setFill(Color.WHITE);
-                    }
+                    flagCell(colX, colY, cell, p, flaggedCells);
                 }
             }
         });
@@ -126,11 +123,16 @@ public class Grid extends Pane {
             return;
         } else {
             if (!c[colX][colY].isOpened()) {
+                if (c[colX][colY].isFlag()) {
+                    c[colX][colY].setFlag(false);
+                    c[colX][colY].setFill(Color.WHITE);
+                    updateFlaggedCells(flaggedCells, -1);
+                }
                 c[colX][colY].setOpened(true);
-                if (c[colX][colY].getStatus() == -1) {        // if we open a bomb
+                if (c[colX][colY].getStatus() == -1) {                  // if we open a bomb
 
                 } else if (c[colX][colY].getStatus() == 0 && c[colX][colY].getAdj() == 0) {  // if it is a non-bomb cell with no adj bombs
-                    c[colX][colY].setFill(Color.GRAY);
+                    c[colX][colY].setFill(Color.valueOf("#E2E2E2"));
                     openCell(colX, colY - 1, c, width, p, n);
                     openCell(colX, colY + 1, c, width, p, n);
                     openCell(colX - 1, colY, c, width, p, n);
@@ -153,5 +155,25 @@ public class Grid extends Pane {
                 }
             }
         }
+    }
+
+    private static void flagCell(int colX, int colY, Cell [][] c, Pane p, IntegerProperty flaggedCells) {
+        if (c[colX][colY].isOpened()) {
+
+        } else {
+            if (!c[colX][colY].isFlag()) {              // if it is not flagged
+                c[colX][colY].setFlag(true);
+                c[colX][colY].setFill(Color.YELLOW);
+                updateFlaggedCells(flaggedCells, 1);
+            } else {                                    // if it is already flagged
+                c[colX][colY].setFlag(false);
+                c[colX][colY].setFill(Color.WHITE);
+                updateFlaggedCells(flaggedCells, -1);
+            }
+        }
+    }
+
+    private static void updateFlaggedCells(IntegerProperty flaggedCells, int amount) {
+        flaggedCells.set(flaggedCells.get() + amount);
     }
 }

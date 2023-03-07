@@ -6,7 +6,7 @@ import javafx.scene.text.Text;
 public class Cell extends Rectangle {
     private boolean flag;
     private boolean opened;
-    private Integer adj;                // nearby bombs
+    private Integer adj;            // nearby bombs
     private Text adjacent;          // adj in Text
     private Integer status;         // -2: Hyperbomb, -1: bomb, 0: no bomb
 
