@@ -14,9 +14,17 @@ import java.util.Random;
 
 public class Grid extends Pane {
 
-    protected static IntegerProperty flaggedCells = new SimpleIntegerProperty();
+    private final IntegerProperty flaggedCells;
 
-    public static Pane makeGrid(int n) {
+    public Grid() {
+        this.flaggedCells = new SimpleIntegerProperty();
+    }
+
+    public IntegerProperty getFlCells() {
+        return flaggedCells;
+    }
+
+    public Pane makeGrid(int n) {
         double width = 64;
         Pane p = new Pane();
 
@@ -83,12 +91,6 @@ public class Grid extends Pane {
                                 cell[i][j+1].getStatus() + cell[i][j-1].getStatus());
                     }
                     cell[i][j].setAdj(val);
-//                    String str = val.toString();
-//                    Text text = new Text(i * width + width/2, j * width + width/2, str);
-//                    text.fontProperty().set(Font.font(20.0));
-//                    text.fillProperty().set(Color.BLACK);
-//                    cell[i][j].setAdjacent(text);
-//                    p.getChildren().add(cell[i][j].getAdjacent());
                 }
             }
         }
@@ -106,7 +108,7 @@ public class Grid extends Pane {
                 //System.out.println();
 
                 if (me.getButton() == MouseButton.PRIMARY) {
-                    openCell(colX, colY, cell, width, p, n);
+                    openCell(colX, colY, cell, width, p, n, flaggedCells);
                 }
                 else if (me.getButton() == MouseButton.SECONDARY) {
                     flagCell(colX, colY, cell, p, flaggedCells);
@@ -117,7 +119,7 @@ public class Grid extends Pane {
         return p;
     }
 
-    private static void openCell(int colX, int colY, Cell [][] c, double width, Pane p, int n) {
+    private static void openCell(int colX, int colY, Cell [][] c, double width, Pane p, int n, IntegerProperty flaggedCells) {
         // If the cell is closed open it
         if (colX < 0 || colY < 0 || colX > n-1 || colY > n-1 ) {        // if out of bounds
             return;
@@ -133,14 +135,14 @@ public class Grid extends Pane {
 
                 } else if (c[colX][colY].getStatus() == 0 && c[colX][colY].getAdj() == 0) {  // if it is a non-bomb cell with no adj bombs
                     c[colX][colY].setFill(Color.valueOf("#E2E2E2"));
-                    openCell(colX, colY - 1, c, width, p, n);
-                    openCell(colX, colY + 1, c, width, p, n);
-                    openCell(colX - 1, colY, c, width, p, n);
-                    openCell(colX + 1, colY, c, width, p, n);
-                    openCell(colX - 1, colY - 1, c, width, p, n);
-                    openCell(colX + 1, colY - 1, c, width, p, n);
-                    openCell(colX - 1, colY + 1, c, width, p, n);
-                    openCell(colX + 1, colY + 1, c, width, p, n);
+                    openCell(colX, colY - 1, c, width, p, n, flaggedCells);
+                    openCell(colX, colY + 1, c, width, p, n, flaggedCells);
+                    openCell(colX - 1, colY, c, width, p, n, flaggedCells);
+                    openCell(colX + 1, colY, c, width, p, n, flaggedCells);
+                    openCell(colX - 1, colY - 1, c, width, p, n, flaggedCells);
+                    openCell(colX + 1, colY - 1, c, width, p, n, flaggedCells);
+                    openCell(colX - 1, colY + 1, c, width, p, n, flaggedCells);
+                    openCell(colX + 1, colY + 1, c, width, p, n, flaggedCells);
                 } else {
                     String str = c[colX][colY].getAdj().toString();
                     Text text = new Text(colX * width + width / 2, colY * width + width / 2, str);

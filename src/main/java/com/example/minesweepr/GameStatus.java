@@ -9,9 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameStatus extends HBox {
 
-    public static HBox getGameStatus() {
+    public static HBox getGameStatus(Grid grid) {
         Text text = new Text();
-        text.textProperty().bind(Grid.flaggedCells.asString());
+        text.textProperty().bind(grid.getFlCells().asString());
         return new HBox(new Text("Flags Placed: "), text);
     }
 }
