@@ -1,9 +1,16 @@
 package com.example.minesweepr;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -39,11 +46,49 @@ public class Minesweeper extends Application {
 
         Grid grid = new Grid(mines);
         GameStatus gameStatus = new GameStatus();
-        HBox hBox = new HBox(CustomMenu.makeMenu(), gameStatus.getMinesStatus(mines), gameStatus.getFlagStatus(grid));
+
+        CustomMenu customMenu = new CustomMenu();
+        customMenu.setMenuBar(customMenu.makeMenuBar());
+
+        HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(mines), gameStatus.getFlagStatus(grid));
         VBox vbox = new VBox(hBox, grid.makeGrid(gridSize));
         stage.setTitle("Minesweeper!");
         stage.setScene(new Scene(vbox));
         stage.setResizable(false);
+
+
+        //===========
+        CPopup cPopup = new CPopup();
+        //createPopup.getContent().add(createPopup.getLabel());
+        //createPopup.getContent().add(new VBox(new Text("Hello2"), new VBox(new Text("Hello1"))));
+        VBox vbox2 = new VBox(cPopup.getGridPane());
+        cPopup.getContent().add(vbox2);
+
+        EventHandler<ActionEvent> event =
+                new EventHandler<ActionEvent>() {
+
+                    public void handle(ActionEvent e)
+                    {
+                        if (!cPopup.isShowing())
+                            cPopup.show(stage);
+                        else
+                            cPopup.hide();
+                    }
+                };
+        customMenu.getMenuBar().getMenus().get(0).getItems().get(0).setOnAction(event);
+        // =================
+
+
+        // Exit handler
+        EventHandler<ActionEvent> eventExit =
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        Platform.exit();
+                    }
+                };
+        customMenu.getMenuBar().getMenus().get(0).getItems().get(3).setOnAction(eventExit);
+
         stage.show();
     }
 

@@ -1,16 +1,20 @@
 package com.example.minesweepr;
 
-import javafx.scene.Scene;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class CustomMenu extends MenuBar {
 
-    public static MenuBar makeMenu ()
-    {
+    private MenuBar menuBar;
+
+    public CustomMenu() {
+        this.menuBar = new MenuBar();
+    }
+
+    public MenuBar makeMenuBar () {
         // create a menu
         Menu applicationMenu = new Menu("Application");
         Menu detailsMenu = new Menu("Details");
@@ -41,5 +45,13 @@ public class CustomMenu extends MenuBar {
         mb.getMenus().add(detailsMenu);
 
         return mb;
+    }
+
+    public MenuBar getMenuBar() {
+        return menuBar;
+    }
+
+    public void setMenuBar(MenuBar menuBar) {
+        this.menuBar = menuBar;
     }
 }

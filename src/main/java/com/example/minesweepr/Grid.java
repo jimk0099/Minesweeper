@@ -26,8 +26,13 @@ public class Grid extends Pane {
         return flaggedCells;
     }
 
+    double width;
     public Pane makeGrid(int n) {
-        double width = 64;
+        if(n == 9) {
+            width = 64;
+        } else {
+            width = 56;
+        }
         Pane p = new Pane();
 
         Cell [][] cell = new Cell [n][n];
@@ -65,7 +70,7 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
-                    // cell[i][j].setFill(Color.BLACK);
+                    cell[i][j].setFill(Color.BLACK);
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
@@ -166,7 +171,6 @@ public class Grid extends Pane {
                     c[colX][colY].setFlag(true);
                     c[colX][colY].setFill(Color.YELLOW);
                     updateFlaggedCells(flaggedCells, 1, this.getMines());
-                    System.out.println(this.isMaxFlags());
                 }
             } else {                                    // if it is already flagged
                 c[colX][colY].setFlag(false);
