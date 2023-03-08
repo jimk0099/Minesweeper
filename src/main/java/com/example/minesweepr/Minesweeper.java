@@ -57,11 +57,10 @@ public class Minesweeper extends Application {
 
         //===========
         CPopup cPopup = new CPopup();
-        //createPopup.getContent().add(createPopup.getLabel());
-        //createPopup.getContent().add(new VBox(new Text("Hello2"), new VBox(new Text("Hello1"))));
         VBox vbox2 = new VBox(cPopup.getGridPane());
         cPopup.getContent().add(vbox2);
 
+        // Menu Create Option
         EventHandler<ActionEvent> event =
                 new EventHandler<ActionEvent>() {
 
@@ -76,7 +75,7 @@ public class Minesweeper extends Application {
         customMenu.getMenuBar().getMenus().get(0).getItems().get(0).setOnAction(event);
         // =================
 
-        // Create handler
+        // Create Submit handler
         EventHandler<ActionEvent> createEvent =
                 new EventHandler<ActionEvent>() {
                     @Override
@@ -138,6 +137,17 @@ public class Minesweeper extends Application {
         };
         Button button = (Button) cPopup.getGridPane().getChildren().get(11);
         button.setOnAction(createEvent);
+
+        // Create Close handler
+        EventHandler<ActionEvent> createCloseEvent =
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        cPopup.hide();
+                    }
+                };
+        Button button1 = (Button) cPopup.getGridPane().getChildren().get(12);
+        button1.setOnAction(createCloseEvent);
 
 
         // Exit handler

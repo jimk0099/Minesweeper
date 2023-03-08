@@ -68,9 +68,15 @@ public class CPopup extends Popup {
         gridPane.add(timeTextField, 1, 5);      // 10
 
         // Submit button
-        Button button = new Button();
-        button.setText("Submit");
-        gridPane.add(button, 1, 6);             // 11
+        Button submitButton = new Button();
+        submitButton.setText("Submit");
+        submitButton.setBackground(new Background(new BackgroundFill(Color.valueOf("#58a6ff"), CornerRadii.EMPTY, Insets.EMPTY)));
+        gridPane.add(submitButton, 1, 6);             // 11
+
+        // Close button
+        Button closeButton = new Button();
+        closeButton.setText("Close");
+        gridPane.add(closeButton, 0, 6);                // 12
 
     }
 
