@@ -116,25 +116,26 @@ public class Minesweeper extends Application {
                             String time1 = time.getText();
 
                             // Set scenario
+                            CFile cFile = new CFile();
                             try {
-                                cPopup.scenario.setDifficulty(Integer.parseInt(difficulty1));
-                                cPopup.scenario.setNumberOfMines(Integer.parseInt(mines1));
-                                cPopup.scenario.setHyperMine(Integer.parseInt(hypermine1));
-                                cPopup.scenario.setTimeInSeconds(Integer.parseInt(time1));
+                                cFile.scenario.setDifficulty(Integer.parseInt(difficulty1));
+                                cFile.scenario.setNumberOfMines(Integer.parseInt(mines1));
+                                cFile.scenario.setHyperMine(Integer.parseInt(hypermine1));
+                                cFile.scenario.setTimeInSeconds(Integer.parseInt(time1));
                             } catch (InvalidValueException ex) {
                                 throw new RuntimeException(ex);
                             }
 
-                            cPopup.scenario.test();
+                            cFile.setScenarioName(id1+".txt");
+                            System.out.println(cFile.getScenarioName());
+                            cFile.scenario.test();
+
+                            cFile.createFile();
 
                             cPopup.hide();
                         }
                     }
         };
-
-
-        System.out.println(cPopup.getGridPane().getChildren().get(2));
-        System.out.println(cPopup.getGridPane().getChildren().get(11));
         Button button = (Button) cPopup.getGridPane().getChildren().get(11);
         button.setOnAction(createEvent);
 

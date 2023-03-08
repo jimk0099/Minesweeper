@@ -11,14 +11,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class CPopup extends Popup {
 
     private GridPane gridPane = new GridPane();
-    protected Scenario scenario = new Scenario();
 
     public CPopup() {
 
@@ -77,22 +72,6 @@ public class CPopup extends Popup {
         button.setText("Submit");
         gridPane.add(button, 1, 6);             // 11
 
-    }
-
-    public void createScenario() {
-        String fileName = "example.txt";
-        String fileContent = "This is some example text.";
-
-        try {
-            File file = new File(fileName);
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(fileContent);
-            fileWriter.close();
-            System.out.println("Text file created successfully.");
-        } catch (IOException e) {
-            System.out.println("An error occurred while creating the text file.");
-            e.printStackTrace();
-        }
     }
 
     public GridPane getGridPane() {
