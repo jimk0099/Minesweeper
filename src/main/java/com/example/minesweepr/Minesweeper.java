@@ -5,9 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -77,6 +75,68 @@ public class Minesweeper extends Application {
                 };
         customMenu.getMenuBar().getMenus().get(0).getItems().get(0).setOnAction(event);
         // =================
+
+        // Create handler
+        EventHandler<ActionEvent> createEvent =
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        if (cPopup.isShowing()) {
+
+                            // Get name of scenario
+                            TextField id = (TextField) cPopup.getGridPane().getChildren().get(2);
+                            String id1 = id.getText();
+
+                            // Get difficulty level
+                            HBox difficulty = (HBox) cPopup.getGridPane().getChildren().get(4);
+                            RadioButton diffButton1 = (RadioButton) difficulty.getChildren().get(0);
+                            String difficulty1;
+                            if(diffButton1.isSelected()) {
+                                difficulty1 = "1";
+                            } else {
+                                difficulty1 = "2";
+                            }
+
+                            // Get number of mines
+                            TextField mines = (TextField) cPopup.getGridPane().getChildren().get(6);
+                            String mines1 = mines.getText();
+
+                            // Get HyperMine field
+                            HBox hypermine = (HBox) cPopup.getGridPane().getChildren().get(8);
+                            CheckBox hypermineBox = (CheckBox) hypermine.getChildren().get(0);
+                            String hypermine1;
+                            if(hypermineBox.isSelected()) {
+                                hypermine1 = "1";
+                            } else {
+                                hypermine1 = "0";
+                            }
+
+                            // Get time
+                            TextField time = (TextField) cPopup.getGridPane().getChildren().get(10);
+                            String time1 = time.getText();
+
+                            // Set scenario
+                            try {
+                                cPopup.scenario.setDifficulty(Integer.parseInt(difficulty1));
+                                cPopup.scenario.setNumberOfMines(Integer.parseInt(mines1));
+                                cPopup.scenario.setHyperMine(Integer.parseInt(hypermine1));
+                                cPopup.scenario.setTimeInSeconds(Integer.parseInt(time1));
+                            } catch (InvalidValueException ex) {
+                                throw new RuntimeException(ex);
+                            }
+
+                            cPopup.scenario.test();
+
+                            cPopup.hide();
+                        }
+                    }
+        };
+
+
+        System.out.println(cPopup.getGridPane().getChildren().get(2));
+        System.out.println(cPopup.getGridPane().getChildren().get(11));
+        Button button = (Button) cPopup.getGridPane().getChildren().get(11);
+        button.setOnAction(createEvent);
 
 
         // Exit handler

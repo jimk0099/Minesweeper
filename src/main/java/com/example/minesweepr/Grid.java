@@ -70,7 +70,7 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
-                    cell[i][j].setFill(Color.BLACK);
+                    // cell[i][j].setFill(Color.BLACK);
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
