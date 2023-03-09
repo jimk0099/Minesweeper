@@ -13,8 +13,8 @@ public class CFile {
         String fileName = this.scenarioName;
         String fileContent = this.scenario.getDifficulty().toString() + "\n" +
                              this.scenario.getNumberOfMines().toString() + "\n" +
-                             this.scenario.getHyperMine().toString() + "\n" +
-                             this.scenario.getTimeInSeconds().toString();
+                             this.scenario.getTimeInSeconds().toString() + "\n" +
+                             this.scenario.getHyperMine().toString();
 
         try {
             String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios";
