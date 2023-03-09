@@ -198,18 +198,22 @@ public class Minesweeper extends Application {
                             } else {
                                 gridSize = 16;
                             }
-                            Grid grid = new Grid(scenario.getNumberOfMines());
-                            Pane pane = new Pane(grid.makeGrid(gridSize));
 
-                            // SET THIS TO FALSE WHEN START BUTTON WORKS
-                            pane.setDisable(false);
-
-                            GameStatus gameStatus = new GameStatus();
-
-                            HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(scenario.getNumberOfMines()), gameStatus.getFlagStatus(grid));
-                            VBox vBox = new VBox(hBox, pane);
-                            stage.setScene(new Scene(vBox));
-
+                            // Start button handler
+                            EventHandler<ActionEvent> eventStart =
+                                    new EventHandler<ActionEvent>() {
+                                        @Override
+                                        public void handle(ActionEvent event) {
+                                            GameStatus gameStatus = new GameStatus();
+                                            Grid grid = new Grid(scenario.getNumberOfMines());
+                                            Pane pane = new Pane(grid.makeGrid(gridSize));
+                                            pane.setDisable(false);
+                                            HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(scenario.getNumberOfMines()), gameStatus.getFlagStatus(grid));
+                                            VBox vBox = new VBox(hBox, pane);
+                                            stage.setScene(new Scene(vBox));
+                                        }
+                                    };
+                            customMenu.getMenuBar().getMenus().get(0).getItems().get(2).setOnAction(eventStart);
 
 
                         } catch (InvalidValueException e) {
@@ -221,8 +225,6 @@ public class Minesweeper extends Application {
                 };
         Button button2 = (Button) loaderPopup.getGridPane().getChildren().get(1);
         button2.setOnAction(eventLoaderSubmit);
-
-
 
 
         // Exit handler

@@ -135,6 +135,15 @@ public class Grid extends Pane {
                 }
                 c[colX][colY].setOpened(true);
                 if (c[colX][colY].getStatus() == -1) {                  // if we open a bomb
+                    p.setDisable(true);
+                    for(int i=0; i<n; i++) {
+                        for (int j = 0; j < n; j++) {
+                            if (c[i][j].getStatus() == -1 && !c[i][j].isFlag()) {
+                                c[i][j].setFill(Color.BLACK);
+                            }
+                        }
+                    }
+                    c[colX][colY].setFill(Color.RED);
 
                 } else if (c[colX][colY].getStatus() == 0 && c[colX][colY].getAdj() == 0) {  // if it is a non-bomb cell with no adj bombs
                     c[colX][colY].setFill(Color.valueOf("#E2E2E2"));
