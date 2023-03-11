@@ -128,20 +128,24 @@ public class Minesweeper extends Application {
 
                             // Set scenario
                             CFile cFile = new CFile();
+
                             try {
                                 cFile.scenario.setDifficulty(Integer.parseInt(difficulty1));
                                 cFile.scenario.setNumberOfMines(Integer.parseInt(mines1));
                                 cFile.scenario.setHyperMine(Integer.parseInt(hypermine1));
                                 cFile.scenario.setTimeInSeconds(Integer.parseInt(time1));
+
+                                if (cFile.scenario.isValid()) {
+                                    cFile.setScenarioName(id1 + ".txt");
+                                    System.out.println(cFile.getScenarioName());
+                                    cFile.scenario.test();
+
+                                    cFile.createFile();
+                                }
+
                             } catch (InvalidValueException ex) {
                                 throw new RuntimeException(ex);
                             }
-
-                            cFile.setScenarioName(id1+".txt");
-                            System.out.println(cFile.getScenarioName());
-                            cFile.scenario.test();
-
-                            cFile.createFile();
 
                             cPopup.hide();
                         }

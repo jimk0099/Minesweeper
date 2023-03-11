@@ -8,13 +8,15 @@ import java.util.Scanner;
 import com.example.minesweepr.InvalidValueException;
 
 public class Scenario {
-    
+
+    private boolean valid;
     private Integer difficulty;
     private Integer numberOfMines;
     private Integer timeInSeconds;
     private Integer hyperMine;          // 0 or 1
 
     public Scenario () {
+        this.valid = true;
         this.difficulty = 1;
         this.numberOfMines = 9;
         this.timeInSeconds = 180;
@@ -69,6 +71,10 @@ public class Scenario {
         return this.hyperMine;
     }
 
+    public boolean isValid() {
+        return this.valid;
+    }
+
     public void setDifficulty(int difficulty) throws InvalidValueException {
         try {
             if(difficulty != 1 && difficulty != 2) {
@@ -79,6 +85,7 @@ public class Scenario {
         } catch (InvalidValueException e) {
             System.out.println("error while setting difficulty");
             e.printStackTrace();
+            this.valid = false;
         }
     }
 
@@ -97,6 +104,7 @@ public class Scenario {
         } catch (InvalidValueException e) {
             System.out.println("error while setting difficulty number of mines");
             e.printStackTrace();
+            this.valid = false;
         }
     }
 
@@ -115,6 +123,7 @@ public class Scenario {
         } catch (InvalidValueException e) {
             System.out.println("error while setting time");
             e.printStackTrace();
+            this.valid = false;
         }
     }
 
@@ -133,10 +142,12 @@ public class Scenario {
         } catch (InvalidValueException e) {
             System.out.println("error while setting hyper mine");
             e.printStackTrace();
+            this.valid = false;
         }    
     }
 
     public void test() {
+        System.out.println(this.valid);
         System.out.println(this.getDifficulty());
         System.out.println(this.getNumberOfMines());
         System.out.println(this.getTimeInSeconds());
