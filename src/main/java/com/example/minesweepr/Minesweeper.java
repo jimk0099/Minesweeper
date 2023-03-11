@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -13,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -163,68 +165,77 @@ public class Minesweeper extends Application {
         // Loader handler show
         EventHandler<ActionEvent> eventLoader =
                 new EventHandler<ActionEvent>() {
+
                     @Override
                     public void handle(ActionEvent e) {
+                        loaderPopup.test1();
+                        //System.out.println(loaderPopup.getGridPane().getChildren());
                         if (!loaderPopup.isShowing()) {
                             loaderPopup.show();
                         }
-                        else
+                        else {
                             loaderPopup.hide();
+                        }
+
+                        // Load handler submit
+                        EventHandler<ActionEvent> eventLoaderSubmit =
+                                new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent event) {
+
+                                        ComboBox<String> stringComboBox = (ComboBox<String>) loaderPopup.getGridPane().getChildren().get(0);
+                                        String selectedFile = stringComboBox.getValue();
+                                        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios/";
+                                        selectedFile = path + selectedFile;
+                                        System.out.println(selectedFile);
+
+
+                                        try {
+                                            Scenario scenario = new Scenario(selectedFile);
+                                            scenario.test();
+
+                                            window.hide();
+
+                                            int gridSize;
+                                            if (scenario.getDifficulty() == 1) {
+                                                gridSize = 9;
+                                            } else {
+                                                gridSize = 16;
+                                            }
+
+                                            // Start button handler
+                                            EventHandler<ActionEvent> eventStart =
+                                                    new EventHandler<ActionEvent>() {
+                                                        @Override
+                                                        public void handle(ActionEvent event) {
+                                                            GameStatus gameStatus = new GameStatus();
+                                                            Grid grid = new Grid(scenario.getNumberOfMines());
+                                                            Pane pane = new Pane(grid.makeGrid(gridSize));
+                                                            pane.setDisable(false);
+                                                            HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(scenario.getNumberOfMines()), gameStatus.getFlagStatus(grid));
+                                                            VBox vBox = new VBox(hBox, pane);
+                                                            stage.setScene(new Scene(vBox));
+                                                        }
+                                                    };
+                                            customMenu.getMenuBar().getMenus().get(0).getItems().get(2).setOnAction(eventStart);
+
+
+                                        } catch (InvalidValueException e) {
+                                            throw new RuntimeException(e);
+                                        }
+
+
+                                    }
+                                };
+                        //System.out.println(loaderPopup.getGridPane().getChildren());
+                        Button button2 = (Button) loaderPopup.getGridPane().getChildren().get(1);
+                        button2.setOnAction(eventLoaderSubmit);
+
                     }
                 };
         customMenu.getMenuBar().getMenus().get(0).getItems().get(1).setOnAction(eventLoader);
 
-        // Load handler submit
-        EventHandler<ActionEvent> eventLoaderSubmit =
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        ComboBox<String> stringComboBox = (ComboBox<String>) loaderPopup.getGridPane().getChildren().get(0);
-                        String selectedFile = stringComboBox.getValue();
-                        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios/";
-                        selectedFile = path + selectedFile;
-                        System.out.println(selectedFile);
 
-
-                        try {
-                            Scenario scenario = new Scenario(selectedFile);
-                            scenario.test();
-
-                            window.hide();
-
-                            int gridSize;
-                            if (scenario.getDifficulty() == 1) {
-                                gridSize = 9;
-                            } else {
-                                gridSize = 16;
-                            }
-
-                            // Start button handler
-                            EventHandler<ActionEvent> eventStart =
-                                    new EventHandler<ActionEvent>() {
-                                        @Override
-                                        public void handle(ActionEvent event) {
-                                            GameStatus gameStatus = new GameStatus();
-                                            Grid grid = new Grid(scenario.getNumberOfMines());
-                                            Pane pane = new Pane(grid.makeGrid(gridSize));
-                                            pane.setDisable(false);
-                                            HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(scenario.getNumberOfMines()), gameStatus.getFlagStatus(grid));
-                                            VBox vBox = new VBox(hBox, pane);
-                                            stage.setScene(new Scene(vBox));
-                                        }
-                                    };
-                            customMenu.getMenuBar().getMenus().get(0).getItems().get(2).setOnAction(eventStart);
-
-
-                        } catch (InvalidValueException e) {
-                            throw new RuntimeException(e);
-                        }
-
-
-                    }
-                };
-        Button button2 = (Button) loaderPopup.getGridPane().getChildren().get(1);
-        button2.setOnAction(eventLoaderSubmit);
 
 
         // Exit handler

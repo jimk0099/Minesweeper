@@ -40,6 +40,7 @@ public class LoaderPopup extends Dialog<String> {
         File dir = new File("/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios");
         File[] files = dir.listFiles();
 
+        System.out.println("Im here!");
         ComboBox<String> fileDropdown = new ComboBox<>();
         assert files != null;
         for (File file : files) {
@@ -62,4 +63,29 @@ public class LoaderPopup extends Dialog<String> {
         return gridPane;
     }
 
+    public void test1() {
+        gridPane.getChildren().remove(0, 2);
+        File dir = new File("/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios");
+        File[] files = dir.listFiles();
+
+        System.out.println("Im here!");
+        ComboBox<String> fileDropdown = new ComboBox<>();
+        assert files != null;
+        for (File file : files) {
+            if (file.isFile()) {
+                fileDropdown.getItems().add(file.getName());
+            }
+        }
+
+        gridPane.add(fileDropdown, 0, 0);
+
+        // Submit button
+        Button submitButton = new Button();
+        submitButton.setText("Submit");
+        submitButton.setBackground(new Background(new BackgroundFill(Color.valueOf("58a6ff"), CornerRadii.EMPTY, Insets.EMPTY)));
+        gridPane.add(submitButton, 1, 1);             // 1
+
+        DialogPane dialogPane = getDialogPane();
+        dialogPane.setContent(gridPane);
+    }
 }
