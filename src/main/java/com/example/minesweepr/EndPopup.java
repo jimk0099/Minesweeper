@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 public class EndPopup extends Dialog {
     private int status;             // 0: defeat, 1: win
@@ -18,6 +19,9 @@ public class EndPopup extends Dialog {
 
     public EndPopup(int status){
         this.status = status;
+
+        Window window = this.getDialogPane().getScene().getWindow();
+        window.setOnCloseRequest(event -> window.hide());
 
         initModality(Modality.APPLICATION_MODAL);
 
@@ -37,11 +41,13 @@ public class EndPopup extends Dialog {
 
         Text text = new Text();
         text.setStyle("-fx-font: 24 arial;");
-        if(this.status == 1) {
-            text.setText("You Won!");
-        } else {
-            text.setText("You Lost :(");
+        switch (this.status) {
+            case 0 -> text.setText("You Hit Bomb :(");
+            case 1 -> text.setText("You Won!");
+            case 2 -> text.setText("Out of Time :(");
+            default -> text.setText("Ooops...");
         }
+
         gridPane.getChildren().add(text);
 
         dialogPane.setContent(gridPane);

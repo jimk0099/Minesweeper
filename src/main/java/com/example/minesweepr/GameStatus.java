@@ -17,7 +17,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameStatus extends HBox {
 
+    protected static Timeline timeline = new Timeline();
+
     public GameStatus() {
+        timeline = new Timeline();
     }
 
     public HBox getMinesStatus(int numOfMines) {
@@ -47,12 +50,24 @@ public class GameStatus extends HBox {
         hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().add(timeLabel);
 
-        Timeline timeline = new Timeline();
+        timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(startingTime + 1), new KeyValue(remainingTime, 0)));
         timeline.playFromStart();
 
         timeLabel.setText(startingTime.toString());
         timeLabel.textProperty().bind(remainingTime.asString());
+
+        timeline.setOnFinished(event -> {
+            System.out.println("Out of time");
+
+            Grid.p.setDisable(true);
+            EndPopup endPopup = new EndPopup(2);
+            if (!endPopup.isShowing()) {
+                endPopup.show();
+            } else {
+                endPopup.hide();
+            }
+        });
 
         return hBox;
 

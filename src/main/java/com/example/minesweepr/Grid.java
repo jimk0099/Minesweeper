@@ -18,6 +18,8 @@ public class Grid extends Pane {
     private boolean maxFlags;
     private boolean endFlag = false;
 
+    protected static Pane p;
+
     public Grid(int mines) {
         this.mines = mines;
         this.maxFlags = false;
@@ -35,7 +37,8 @@ public class Grid extends Pane {
         } else {
             width = 56;
         }
-        Pane p = new Pane();
+        //Pane p = new Pane();
+        p = new Pane();
 
         Cell [][] cell = new Cell [n][n];
 
@@ -72,7 +75,7 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
-                    // cell[i][j].setFill(Color.BLACK);
+                    cell[i][j].setFill(Color.BLACK);
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
@@ -147,9 +150,8 @@ public class Grid extends Pane {
                         }
                     }
                     c[colX][colY].setFill(Color.RED);
+                    GameStatus.timeline.stop();
                     EndPopup endPopup = new EndPopup(0);
-                    Window window = endPopup.getDialogPane().getScene().getWindow();
-                    window.setOnCloseRequest(event -> window.hide());
                     if (!endPopup.isShowing()) {
                         endPopup.show();
                     } else {
@@ -183,7 +185,7 @@ public class Grid extends Pane {
                 openedCells = 0;
                 for(int i=0; i<n; i++) {
                     for (int j = 0; j < n; j++) {
-                        if (c[i][j].isOpened()) {
+                        if (c[i][j].isOpened() && c[i][j].getStatus() == 0) {
                             openedCells++;
                         }
                     }
@@ -191,10 +193,9 @@ public class Grid extends Pane {
                 if(openedCells == (n * n) - mines && !this.isEndFlag()) {
                     this.setEndFlag(true);
                     p.setDisable(true);
+                    GameStatus.timeline.stop();
                     //System.out.println("Endo gamu");
                     EndPopup endPopup = new EndPopup(1);
-                    Window window = endPopup.getDialogPane().getScene().getWindow();
-                    window.setOnCloseRequest(event -> window.hide());
                     if (!endPopup.isShowing()) {
                         endPopup.show();
                     } else {

@@ -26,30 +26,9 @@ public class Minesweeper extends Application {
         //Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         //Scene scene = new Scene(Grid.makeGrid(10), 640, 640);
 
-//        Parameters parameters = getParameters();
-//        List<String> unnamedParams = parameters.getUnnamed();
-//
-//        String difficulty = unnamedParams.get(0);
-//        String numberOfMines = unnamedParams.get(1);
-//        String timeInSeconds = unnamedParams.get(2);
-//        String hyperMine = unnamedParams.get(3);
-//
-//        int diff = Integer.parseInt(difficulty);
-//        int mines = Integer.parseInt(numberOfMines);
-//        int time = Integer.parseInt(timeInSeconds);
-//        int hyper = Integer.parseInt(hyperMine);
-
-//        int gridSize;
-//        if (diff == 1) {
-//            gridSize = 9;
-//        } else {
-//            gridSize = 16;
-//        }
-//
         Grid grid = new Grid(0);
         Pane pane = new Pane(grid.makeGrid(9));
         pane.setDisable(true);
-//        GameStatus gameStatus = new GameStatus();
 
         CustomMenu customMenu = new CustomMenu();
         customMenu.setMenuBar(customMenu.makeMenuBar());
@@ -212,6 +191,7 @@ public class Minesweeper extends Application {
                                                     new EventHandler<ActionEvent>() {
                                                         @Override
                                                         public void handle(ActionEvent event) {
+                                                            GameStatus.timeline.stop();
                                                             GameStatus gameStatus = new GameStatus();
                                                             Grid grid = new Grid(scenario.getNumberOfMines());
                                                             Pane pane = new Pane(grid.makeGrid(gridSize));
