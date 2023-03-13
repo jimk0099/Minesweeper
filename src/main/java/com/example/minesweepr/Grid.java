@@ -167,6 +167,8 @@ public class Grid extends Pane {
                     c[colX][colY].setAdjacent(text);
                     p.getChildren().add(c[colX][colY].getAdjacent());
                 }
+                // Check for win condition
+                // TODO: WIN CONDITION
             }
         }
     }

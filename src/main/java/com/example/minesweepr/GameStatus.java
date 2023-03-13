@@ -1,13 +1,18 @@
 package com.example.minesweepr;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameStatus extends HBox {
@@ -31,7 +36,26 @@ public class GameStatus extends HBox {
         return hBox;
     }
 
-//    public HBox getTimerStatus() {
-//
-//    }
+    public HBox getTimerStatus(int seconds) {
+
+        Integer startingTime = seconds;
+        SimpleIntegerProperty remainingTime = new SimpleIntegerProperty(startingTime);
+
+        Label timeLabel = new Label();
+        HBox hBox = new HBox(new Text("Timer: "));
+        hBox.setPadding(new Insets(0, 15, 0, 15));
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().add(timeLabel);
+
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(startingTime + 1), new KeyValue(remainingTime, 0)));
+        timeline.playFromStart();
+
+        timeLabel.setText(startingTime.toString());
+        timeLabel.textProperty().bind(remainingTime.asString());
+
+        return hBox;
+
+        }
+
 }

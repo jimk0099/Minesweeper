@@ -216,7 +216,8 @@ public class Minesweeper extends Application {
                                                             Grid grid = new Grid(scenario.getNumberOfMines());
                                                             Pane pane = new Pane(grid.makeGrid(gridSize));
                                                             pane.setDisable(false);
-                                                            HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(scenario.getNumberOfMines()), gameStatus.getFlagStatus(grid));
+                                                            HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(scenario.getNumberOfMines()),
+                                                                                gameStatus.getFlagStatus(grid), gameStatus.getTimerStatus(scenario.getTimeInSeconds()));
                                                             VBox vBox = new VBox(hBox, pane);
                                                             stage.setScene(new Scene(vBox));
                                                         }
