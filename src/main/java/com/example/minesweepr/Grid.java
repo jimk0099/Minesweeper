@@ -15,6 +15,7 @@ public class Grid extends Pane {
     private final IntegerProperty flaggedCells;
     private int mines;
     private boolean maxFlags;
+    private boolean endFlag = false;
 
     public Grid(int mines) {
         this.mines = mines;
@@ -70,7 +71,7 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
-                    // cell[i][j].setFill(Color.BLACK);
+                    cell[i][j].setFill(Color.BLACK);
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
@@ -123,6 +124,7 @@ public class Grid extends Pane {
     }
 
     private void openCell(int colX, int colY, Cell[][] c, double width, Pane p, int n, IntegerProperty flaggedCells) {
+        int openedCells;
         // If the cell is closed open it
         if (colX < 0 || colY < 0 || colX > n-1 || colY > n-1 ) {        // if out of bounds
 
@@ -167,8 +169,21 @@ public class Grid extends Pane {
                     c[colX][colY].setAdjacent(text);
                     p.getChildren().add(c[colX][colY].getAdjacent());
                 }
+
                 // Check for win condition
-                // TODO: WIN CONDITION
+                openedCells = 0;
+                for(int i=0; i<n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        if (c[i][j].isOpened()) {
+                            openedCells++;
+                        }
+                    }
+                }
+                if(openedCells == (n * n) - mines && !this.isEndFlag()) {
+                    this.setEndFlag(true);
+                    p.setDisable(true);
+                    System.out.println("Endo gamu");
+                }
             }
         }
     }
@@ -212,5 +227,13 @@ public class Grid extends Pane {
 
     public void setMaxFlags(boolean maxFlags) {
         this.maxFlags = maxFlags;
+    }
+
+    public boolean isEndFlag() {
+        return endFlag;
+    }
+
+    public void setEndFlag(boolean endFlag) {
+        this.endFlag = endFlag;
     }
 }
