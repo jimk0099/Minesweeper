@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Window;
 
 import java.util.Random;
 
@@ -71,7 +72,7 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
-                    cell[i][j].setFill(Color.BLACK);
+                    // cell[i][j].setFill(Color.BLACK);
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
@@ -146,6 +147,14 @@ public class Grid extends Pane {
                         }
                     }
                     c[colX][colY].setFill(Color.RED);
+                    EndPopup endPopup = new EndPopup(0);
+                    Window window = endPopup.getDialogPane().getScene().getWindow();
+                    window.setOnCloseRequest(event -> window.hide());
+                    if (!endPopup.isShowing()) {
+                        endPopup.show();
+                    } else {
+                        endPopup.hide();
+                    }
 
                 } else if (c[colX][colY].getStatus() == 0 && c[colX][colY].getAdj() == 0) {  // if it is a non-bomb cell with no adj bombs
                     c[colX][colY].setFill(Color.valueOf("#E2E2E2"));
@@ -182,7 +191,15 @@ public class Grid extends Pane {
                 if(openedCells == (n * n) - mines && !this.isEndFlag()) {
                     this.setEndFlag(true);
                     p.setDisable(true);
-                    System.out.println("Endo gamu");
+                    //System.out.println("Endo gamu");
+                    EndPopup endPopup = new EndPopup(1);
+                    Window window = endPopup.getDialogPane().getScene().getWindow();
+                    window.setOnCloseRequest(event -> window.hide());
+                    if (!endPopup.isShowing()) {
+                        endPopup.show();
+                    } else {
+                        endPopup.hide();
+                    }
                 }
             }
         }
