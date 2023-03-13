@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Window;
 
 import java.util.Random;
 
@@ -17,6 +16,8 @@ public class Grid extends Pane {
     private int mines;
     private boolean maxFlags;
     private boolean endFlag = false;
+    private Integer hyperMine;
+    private int correctMarks;
 
     protected static Pane p;
 
@@ -24,6 +25,15 @@ public class Grid extends Pane {
         this.mines = mines;
         this.maxFlags = false;
         this.flaggedCells = new SimpleIntegerProperty();
+        this.correctMarks = 0;
+    }
+
+    public Grid(int mines, Integer hyperMine) {
+        this.mines = mines;
+        this.hyperMine = hyperMine;
+        this.maxFlags = false;
+        this.flaggedCells = new SimpleIntegerProperty();
+        this.correctMarks = 0;
     }
 
     public IntegerProperty getFlCells() {
@@ -63,8 +73,12 @@ public class Grid extends Pane {
         while(k < this.getMines()) {
             int randI = random.nextInt(n);
             int randJ = random.nextInt(n);
-            if (cell[randI][randJ].getStatus() != -1) {     // if this is not a bomb
-                cell[randI][randJ].setStatus(-1);           // set it as bomb
+            if (cell[randI][randJ].getStatus() == 0) {          // if this is not a bomb
+                if (hyperMine == 1 && k == 0) {                  // Set the first mine to be the hyperMine if the scenario has hyperMine
+                    cell[randI][randJ].setStatus(-1);
+                    cell[randI][randJ].setHyperBomb(true);
+                }
+                cell[randI][randJ].setStatus(-1);           // else set it as normal mine
                 k++;
             }
         }
@@ -76,6 +90,10 @@ public class Grid extends Pane {
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING ONLY
                     cell[i][j].setFill(Color.BLACK);
+                    if(cell[i][j].isHyperBomb()) {
+                        // TESTING HYPERMINE
+                        cell[i][j].setFill(Color.GREEN);
+                    }
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner
                         val = -(cell[i+1][j].getStatus() + cell[i][j+1].getStatus() + cell[i+1][j+1].getStatus());
@@ -215,6 +233,14 @@ public class Grid extends Pane {
                     c[colX][colY].setFlag(true);
                     c[colX][colY].setFill(Color.YELLOW);
                     updateFlaggedCells(flaggedCells, 1, this.getMines());
+                    if (c[colX][colY].getStatus() == -1) {
+                        correctMarks++;
+                        if (c[colX][colY].isHyperBomb() && correctMarks <= 4) {
+                            //TODO: Hyperbomb functionality
+                            System.out.println("hyper activated");
+                            activateHyper();
+                        }
+                    }
                 }
             } else {                                    // if it is already flagged
                 c[colX][colY].setFlag(false);
@@ -229,6 +255,10 @@ public class Grid extends Pane {
 
         // Reached max flags?
         this.setMaxFlags(flaggedCells.get() == mines);
+    }
+
+    private void activateHyper() {
+
     }
 
     public int getMines() {

@@ -8,7 +8,8 @@ public class Cell extends Rectangle {
     private boolean opened;
     private Integer adj;            // nearby bombs
     private Text adjacent;          // adj in Text
-    private Integer status;         // -2: Hyperbomb, -1: bomb, 0: no bomb
+    private Integer status;         // -1: bomb, 0: no bomb
+    private boolean hyperBomb;
 
     public Cell() {
         this.adj = 0;
@@ -16,6 +17,7 @@ public class Cell extends Rectangle {
         this.flag = false;
         this.opened = false;
         this.status = 0;
+        this.hyperBomb = false;
     }
 
     public boolean isFlag() {
@@ -56,5 +58,13 @@ public class Cell extends Rectangle {
 
     public void setAdj(int adj) {
         this.adj = adj;
+    }
+
+    public boolean isHyperBomb() {
+        return hyperBomb;
+    }
+
+    public void setHyperBomb(boolean hyperBomb) {
+        this.hyperBomb = hyperBomb;
     }
 }
