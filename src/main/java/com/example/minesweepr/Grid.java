@@ -18,6 +18,7 @@ public class Grid extends Pane {
     private boolean endFlag = false;
     private Integer hyperMine;
     private int correctMarks;
+    private int size;
 
     protected static Pane p;
 
@@ -42,6 +43,7 @@ public class Grid extends Pane {
 
     double width;
     public Pane makeGrid(int n) {
+        size = n;
         if(n == 9) {
             width = 64;
         } else {
@@ -134,11 +136,14 @@ public class Grid extends Pane {
             int colY = (int) (posY / width);
 
             //System.out.println();
+            if(!cell[colX][colY].isDisabled()) {
 
-            if (me.getButton() == MouseButton.PRIMARY) {
-                openCell(colX, colY, cell, width, p, n, flaggedCells);
-            } else if (me.getButton() == MouseButton.SECONDARY) {
-                flagCell(colX, colY, cell, flaggedCells);
+                if (me.getButton() == MouseButton.PRIMARY) {
+                    openCell(colX, colY, cell, width, p, n, flaggedCells);
+                } else if (me.getButton() == MouseButton.SECONDARY) {
+                    flagCell(colX, colY, cell, flaggedCells);
+
+                }
             }
         });
 
@@ -238,7 +243,7 @@ public class Grid extends Pane {
                         if (c[colX][colY].isHyperBomb() && correctMarks <= 4) {
                             //TODO: Hyperbomb functionality
                             System.out.println("hyper activated");
-                            activateHyper();
+                            activateHyper(colX, colY, c, colX, colY);
                         }
                     }
                 }
@@ -257,8 +262,46 @@ public class Grid extends Pane {
         this.setMaxFlags(flaggedCells.get() == mines);
     }
 
-    private void activateHyper() {
+    private void activateHyper(int colX, int colY, Cell[][] c, int hyperColX, int hyperColY) {
+        if(colX < 0 || colY < 0 || colX > size-1 || colY > size-1 ) {
 
+        } else if (!c[colX][colY].isDisabled()) {
+            c[colX][colY].setDisable(true);
+            if(c[colX][colY].getStatus() == -1) {                   // if it is a bomb
+                c[colX][colY].setFill(Color.BLACK);
+            } else {
+                c[colX][colY].setOpened(true);
+                if (c[colX][colY].getAdj() == 0) {
+                    c[colX][colY].setFill(Color.valueOf("#E2E2E2"));
+                } else {
+                    String str = c[colX][colY].getAdj().toString();
+                    Text text = new Text(colX * width + width / 2, colY * width + width / 2, str);
+                    text.fontProperty().set(Font.font(20.0));
+                    switch (c[colX][colY].getAdj()) {
+                        case 1 -> text.fillProperty().set(Color.BLUE);
+                        case 2 -> text.fillProperty().set(Color.GREEN);
+                        default -> text.fillProperty().set(Color.RED);
+                    }
+                    c[colX][colY].setAdjacent(text);
+                    p.getChildren().add(c[colX][colY].getAdjacent());
+                }
+            }
+            if (colX == hyperColX && colY == hyperColY) {                   // we are at the hyperMine
+                activateHyper(colX-1, colY, c, hyperColX, hyperColY);
+                activateHyper(colX+1, colY, c, hyperColX, hyperColY);
+                activateHyper(colX, colY-1, c, hyperColX, hyperColY);
+                activateHyper(colX, colY+1, c, hyperColX, hyperColY);
+            } else if (colX < hyperColX) {
+                activateHyper(colX-1, colY, c, hyperColX, hyperColY);
+            } else if (colX > hyperColX) {
+                activateHyper(colX+1, colY, c, hyperColX, hyperColY);
+            } else if (colY < hyperColY) {
+                activateHyper(colX, colY-1, c, hyperColX, hyperColY);
+            } else if (colY > hyperColY) {
+                activateHyper(colX, colY+1, c, hyperColX, hyperColY);
+            }
+
+        }
     }
 
     public int getMines() {

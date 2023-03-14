@@ -42,7 +42,7 @@ public class EndPopup extends Dialog {
         Text text = new Text();
         text.setStyle("-fx-font: 24 arial;");
         switch (this.status) {
-            case 0 -> text.setText("You Hit Bomb :(");
+            case 0 -> text.setText("You Hit a Bomb :(");
             case 1 -> text.setText("You Won!");
             case 2 -> text.setText("Out of Time :(");
             default -> text.setText("Ooops...");

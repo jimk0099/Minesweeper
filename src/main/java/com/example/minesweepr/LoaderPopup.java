@@ -40,7 +40,6 @@ public class LoaderPopup extends Dialog<String> {
         File dir = new File("/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios");
         File[] files = dir.listFiles();
 
-        System.out.println("Im here!");
         ComboBox<String> fileDropdown = new ComboBox<>();
         assert files != null;
         for (File file : files) {
@@ -68,7 +67,6 @@ public class LoaderPopup extends Dialog<String> {
         File dir = new File("/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios");
         File[] files = dir.listFiles();
 
-        System.out.println("Im here!");
         ComboBox<String> fileDropdown = new ComboBox<>();
         assert files != null;
         for (File file : files) {
