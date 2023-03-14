@@ -6,17 +6,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class Minesweeper extends Application {
 
@@ -193,7 +189,7 @@ public class Minesweeper extends Application {
                                                         public void handle(ActionEvent event) {
                                                             GameStatus.timeline.stop();
                                                             GameStatus gameStatus = new GameStatus();
-                                                            Grid grid = new Grid(scenario.getNumberOfMines());
+                                                            Grid grid = new Grid(scenario.getNumberOfMines(), scenario.getHyperMine());
                                                             Pane pane = new Pane(grid.makeGrid(gridSize));
                                                             pane.setDisable(false);
                                                             HBox hBox = new HBox(customMenu.getMenuBar(), gameStatus.getMinesStatus(scenario.getNumberOfMines()),
