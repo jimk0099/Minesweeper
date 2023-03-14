@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -196,6 +197,19 @@ public class Minesweeper extends Application {
                                                                                 gameStatus.getFlagStatus(grid), gameStatus.getTimerStatus(scenario.getTimeInSeconds()));
                                                             VBox vBox = new VBox(hBox, pane);
                                                             stage.setScene(new Scene(vBox));
+
+
+                                                            // Solution handler
+                                                            EventHandler<ActionEvent> eventSolution =
+                                                                    new EventHandler<ActionEvent>() {
+                                                                        @Override
+                                                                        public void handle(ActionEvent event) {
+                                                                            pane.setDisable(true);
+                                                                            grid.solve();
+
+                                                                        }
+                                                                    };
+                                                            customMenu.getMenuBar().getMenus().get(1).getItems().get(1).setOnAction(eventSolution);
                                                         }
                                                     };
                                             customMenu.getMenuBar().getMenus().get(0).getItems().get(2).setOnAction(eventStart);

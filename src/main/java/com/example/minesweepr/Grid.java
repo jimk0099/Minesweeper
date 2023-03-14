@@ -2,6 +2,7 @@ package com.example.minesweepr;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -19,6 +20,7 @@ public class Grid extends Pane {
     private Integer hyperMine;
     private int correctMarks;
     private int size;
+    private Cell [][] cell;
 
     protected static Pane p;
 
@@ -52,7 +54,8 @@ public class Grid extends Pane {
         //Pane p = new Pane();
         p = new Pane();
 
-        Cell [][] cell = new Cell [n][n];
+        //Cell [][] cell = new Cell [n][n];
+        cell = new Cell [n][n];
 
         Random random = new Random();
 //        int numberMines = random.nextInt(9,12);
@@ -90,10 +93,10 @@ public class Grid extends Pane {
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
-                    //TESTING ONLY
+                    //TESTING: Show Mines
                     cell[i][j].setFill(Color.BLACK);
                     if(cell[i][j].isHyperBomb()) {
-                        // TESTING HYPERMINE
+                        // TESTING: Show hyperMine
                         cell[i][j].setFill(Color.GREEN);
                     }
                 } else {
@@ -301,6 +304,38 @@ public class Grid extends Pane {
                 activateHyper(colX, colY+1, c, hyperColX, hyperColY);
             }
 
+        }
+    }
+
+    public void solve() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (cell[i][j].getStatus() == -1) {
+                    cell[i][j].setFill(Color.BLACK);
+                } else if (cell[i][j].getStatus() == 0) {
+                    if (cell[i][j].getAdj() == 0) {
+                        cell[i][j].setFill(Color.valueOf("#E2E2E2"));
+                    } else {
+                        String str = cell[i][j].getAdj().toString();
+                        Text text = new Text(i * width + width / 2, j * width + width / 2, str);
+                        text.fontProperty().set(Font.font(20.0));
+                        switch (cell[i][j].getAdj()) {
+                            case 1 -> text.fillProperty().set(Color.BLUE);
+                            case 2 -> text.fillProperty().set(Color.GREEN);
+                            default -> text.fillProperty().set(Color.RED);
+                        }
+                        cell[i][j].setAdjacent(text);
+                        p.getChildren().add(cell[i][j].getAdjacent());
+                    }
+                }
+            }
+        }
+        GameStatus.timeline.stop();
+        EndPopup endPopup = new EndPopup(3);
+        if (!endPopup.isShowing()) {
+            endPopup.show();
+        } else {
+            endPopup.hide();
         }
     }
 

@@ -45,6 +45,7 @@ public class EndPopup extends Dialog {
             case 0 -> text.setText("You Hit a Bomb :(");
             case 1 -> text.setText("You Won!");
             case 2 -> text.setText("Out of Time :(");
+            case 3 -> text.setText("This is the Solution!");
             default -> text.setText("Ooops...");
         }
 
