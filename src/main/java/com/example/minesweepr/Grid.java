@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Grid extends Pane {
@@ -74,18 +76,26 @@ public class Grid extends Pane {
         }
 
         // Insert bombs
+        minesFile minesFile = new minesFile();
+        BufferedWriter bufferedWriter = minesFile.createWriter();
         int k = 0;
         while(k < this.getMines()) {
             int randI = random.nextInt(n);
             int randJ = random.nextInt(n);
             if (cell[randI][randJ].getStatus() == 0) {          // if this is not a bomb
+                cell[randI][randJ].setStatus(-1);
                 if (hyperMine == 1 && k == 0) {                  // Set the first mine to be the hyperMine if the scenario has hyperMine
-                    cell[randI][randJ].setStatus(-1);
                     cell[randI][randJ].setHyperBomb(true);
+                    minesFile.writeLine(randI, randJ, 1);
                 }
-                cell[randI][randJ].setStatus(-1);           // else set it as normal mine
+                minesFile.writeLine(randI, randJ, 0);
                 k++;
             }
+        }
+        try {
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         // Set status depending on the adjacent bombs
