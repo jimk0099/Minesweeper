@@ -231,6 +231,15 @@ public class Minesweeper extends Application {
         customMenu.getMenuBar().getMenus().get(0).getItems().get(1).setOnAction(eventLoader);
 
 
+        // Rounds handler
+        EventHandler<ActionEvent> eventRounds =
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+
+                    }
+                };
+        customMenu.getMenuBar().getMenus().get(1).getItems().get(0).setOnAction(eventRounds);
 
 
         // Exit handler

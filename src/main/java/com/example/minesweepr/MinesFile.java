@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class minesFile {
+public class MinesFile {
 
     private String fileName = "mines.txt";
     BufferedWriter bufferedWriter;

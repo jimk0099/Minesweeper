@@ -16,13 +16,14 @@ import java.util.Random;
 public class Grid extends Pane {
 
     private final IntegerProperty flaggedCells;
-    private int mines;
+    protected static int mines;
     private boolean maxFlags;
     private boolean endFlag = false;
     private Integer hyperMine;
     private int correctMarks;
     private int size;
     private Cell [][] cell;
+    protected static int clicks;
 
     protected static Pane p;
 
@@ -47,6 +48,7 @@ public class Grid extends Pane {
 
     double width;
     public Pane makeGrid(int n) {
+        clicks = 0;
         size = n;
         if(n == 9) {
             width = 64;
@@ -76,7 +78,7 @@ public class Grid extends Pane {
         }
 
         // Insert bombs
-        minesFile minesFile = new minesFile();
+        MinesFile minesFile = new MinesFile();
         BufferedWriter bufferedWriter = minesFile.createWriter();
         int k = 0;
         while(k < this.getMines()) {
@@ -152,6 +154,10 @@ public class Grid extends Pane {
             if(!cell[colX][colY].isDisabled()) {
 
                 if (me.getButton() == MouseButton.PRIMARY) {
+                    //Count successful left clicks
+                    if(!cell[colX][colY].isOpened()) {
+                        clicks++;
+                    }
                     openCell(colX, colY, cell, width, p, n, flaggedCells);
                 } else if (me.getButton() == MouseButton.SECONDARY) {
                     flagCell(colX, colY, cell, flaggedCells);
@@ -187,6 +193,18 @@ public class Grid extends Pane {
                     }
                     c[colX][colY].setFill(Color.RED);
                     GameStatus.timeline.stop();
+
+                    //TESTING: Lose Game (mine) - Write to file
+                    RoundsFile roundsFile = new RoundsFile();
+                    BufferedWriter bufferedWriter = roundsFile.createWriter();
+                    roundsFile.writeGame(mines, clicks, GameStatus.startingTime, "Computer");
+                    try {
+                        bufferedWriter.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    // Endgame popup
                     EndPopup endPopup = new EndPopup(0);
                     if (!endPopup.isShowing()) {
                         endPopup.show();
@@ -217,7 +235,7 @@ public class Grid extends Pane {
                     p.getChildren().add(c[colX][colY].getAdjacent());
                 }
 
-                // Check for win condition
+                //Check for win condition
                 openedCells = 0;
                 for(int i=0; i<n; i++) {
                     for (int j = 0; j < n; j++) {
@@ -230,7 +248,18 @@ public class Grid extends Pane {
                     this.setEndFlag(true);
                     p.setDisable(true);
                     GameStatus.timeline.stop();
-                    //System.out.println("Endo gamu");
+
+                    //TESTING: Win Game - write to file
+                    RoundsFile roundsFile = new RoundsFile();
+                    BufferedWriter bufferedWriter = roundsFile.createWriter();
+                    roundsFile.writeGame(mines, clicks, GameStatus.startingTime, "Player");
+                    try {
+                        bufferedWriter.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    // Endgame popup
                     EndPopup endPopup = new EndPopup(1);
                     if (!endPopup.isShowing()) {
                         endPopup.show();
@@ -254,7 +283,6 @@ public class Grid extends Pane {
                     if (c[colX][colY].getStatus() == -1) {
                         correctMarks++;
                         if (c[colX][colY].isHyperBomb() && correctMarks <= 4) {
-                            //TODO: Hyperbomb functionality
                             System.out.println("hyper activated");
                             activateHyper(colX, colY, c, colX, colY);
                         }

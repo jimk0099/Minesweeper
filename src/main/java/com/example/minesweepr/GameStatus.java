@@ -12,12 +12,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameStatus extends HBox {
 
     protected static Timeline timeline = new Timeline();
+    protected static Label timeLabel = new Label();
+    protected static Integer startingTime;
 
     public GameStatus() {
         timeline = new Timeline();
@@ -41,10 +45,10 @@ public class GameStatus extends HBox {
 
     public HBox getTimerStatus(int seconds) {
 
-        Integer startingTime = seconds;
+        startingTime = seconds;
         SimpleIntegerProperty remainingTime = new SimpleIntegerProperty(startingTime);
 
-        Label timeLabel = new Label();
+        timeLabel = new Label();
         HBox hBox = new HBox(new Text("Timer: "));
         hBox.setPadding(new Insets(0, 15, 0, 15));
         hBox.setAlignment(Pos.CENTER);
@@ -61,6 +65,17 @@ public class GameStatus extends HBox {
             System.out.println("Out of time");
 
             Grid.p.setDisable(true);
+
+            //TESTING: Write to file
+            RoundsFile roundsFile = new RoundsFile();
+            BufferedWriter bufferedWriter = roundsFile.createWriter();
+            roundsFile.writeGame(Grid.mines, Grid.clicks, GameStatus.startingTime, "Computer");
+            try {
+                bufferedWriter.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             EndPopup endPopup = new EndPopup(2);
             if (!endPopup.isShowing()) {
                 endPopup.show();
