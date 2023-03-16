@@ -7,14 +7,13 @@ import java.io.IOException;
 
 public class MinesFile {
 
-    private String fileName = "mines.txt";
     BufferedWriter bufferedWriter;
-
 
     public BufferedWriter createWriter() {
         FileWriter writer;
         try {
             String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr";
+            String fileName = "mines.txt";
             File file = new File(path, fileName);
             writer = new FileWriter(file, false);
         } catch (IOException e) {

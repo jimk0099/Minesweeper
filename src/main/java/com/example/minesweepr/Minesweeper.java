@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Minesweeper extends Application {
@@ -41,6 +42,9 @@ public class Minesweeper extends Application {
         LoaderPopup loaderPopup = new LoaderPopup();
         Window window = loaderPopup.getDialogPane().getScene().getWindow();
         window.setOnCloseRequest(event -> window.hide());
+
+        // Rounds initialize
+        RoundsPopup roundsPopup = new RoundsPopup();
 
 
         //===========
@@ -236,7 +240,17 @@ public class Minesweeper extends Application {
                 new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
+                        //System.out.println("pressed Rounds button");
+                        //BufferedReader bufferedReader = roundsPopup.createReader();
+                        roundsPopup.readLines();
+                        roundsPopup.showRoundsPopup();
 
+                        if (!roundsPopup.isShowing()) {
+                            roundsPopup.show();
+                        }
+                        else {
+                            roundsPopup.hide();
+                        }
                     }
                 };
         customMenu.getMenuBar().getMenus().get(1).getItems().get(0).setOnAction(eventRounds);
