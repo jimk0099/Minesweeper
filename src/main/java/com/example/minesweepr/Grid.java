@@ -106,10 +106,10 @@ public class Grid extends Pane {
             for(int j=0; j<n; j++){
                 if(cell[i][j].getStatus() == -1) {          // if it is a bomb
                     //TESTING: Show Mines
-                    cell[i][j].setFill(Color.BLACK);
+                    //cell[i][j].setFill(Color.BLACK);
                     if(cell[i][j].isHyperBomb()) {
                         // TESTING: Show hyperMine
-                        cell[i][j].setFill(Color.GREEN);
+                        //cell[i][j].setFill(Color.GREEN);
                     }
                 } else {
                     if (i-1 < 0 && j-1 < 0) {                // Top Left corner

@@ -17,7 +17,7 @@ public class CFile {
                              this.scenario.getHyperMine().toString();
 
         try {
-            String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios";
+            String path = "src/main/resources/com/example/minesweepr/Scenarios";
             File file = new File(path, fileName);
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(fileContent);

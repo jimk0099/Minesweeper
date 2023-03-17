@@ -13,7 +13,7 @@ public class RoundsFile {
     public BufferedWriter createWriter() {
         FileWriter writer;
         try {
-            String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr";
+            String path = "src/main/resources/com/example/minesweepr";
             String fileName = "rounds.txt";
             File file = new File(path, fileName);
             writer = new FileWriter(file, true);
@@ -30,7 +30,7 @@ public class RoundsFile {
         lineCount = 0;
         FileReader reader;
         try {
-            String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr";
+            String path = "src/main/resources/com/example/minesweepr";
             String fileName = "rounds.txt";
             File file = new File(path, fileName);
             reader = new FileReader(file);

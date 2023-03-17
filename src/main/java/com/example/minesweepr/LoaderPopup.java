@@ -37,7 +37,7 @@ public class LoaderPopup extends Dialog<String> {
         dialogPane.setContent(gridPane);
 
 
-        File dir = new File("/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios");
+        File dir = new File("src/main/resources/com/example/minesweepr/Scenarios");
         File[] files = dir.listFiles();
 
         ComboBox<String> fileDropdown = new ComboBox<>();
@@ -64,7 +64,7 @@ public class LoaderPopup extends Dialog<String> {
 
     public void test1() {
         gridPane.getChildren().remove(0, 2);
-        File dir = new File("/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios");
+        File dir = new File("src/main/resources/com/example/minesweepr/Scenarios");
         File[] files = dir.listFiles();
 
         ComboBox<String> fileDropdown = new ComboBox<>();

@@ -169,7 +169,7 @@ public class Minesweeper extends Application {
 
                                         ComboBox<String> stringComboBox = (ComboBox<String>) loaderPopup.getGridPane().getChildren().get(0);
                                         String selectedFile = stringComboBox.getValue();
-                                        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/Scenarios/";
+                                        String path = "src/main/resources/com/example/minesweepr/Scenarios/";
                                         selectedFile = path + selectedFile;
                                         System.out.println(selectedFile);
 
@@ -270,12 +270,6 @@ public class Minesweeper extends Application {
     }
 
     public static void main(String[] args) throws InvalidValueException {
-//        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/";
-//        String filename = path + "level_1_example.txt";
-//        Scenario scenario = new Scenario(filename);
-//        scenario.test();
-//        launch(scenario.getDifficulty().toString(), scenario.getNumberOfMines().toString(),
-//                scenario.getTimeInSeconds().toString(), scenario.getHyperMine().toString());
         launch();
     }
 }

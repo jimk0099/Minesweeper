@@ -24,7 +24,7 @@ public class RoundsPopup extends Dialog {
     public BufferedReader createReader() {
         FileReader reader;
         try {
-            String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr";
+            String path = "src/main/resources/com/example/minesweepr";
             String fileName = "rounds.txt";
             File file = new File(path, fileName);
             System.out.println(file);
@@ -40,7 +40,7 @@ public class RoundsPopup extends Dialog {
     public void readLines() {
         //Label label = new Label();
         roundsList = new ArrayList<>();
-        String path = "/home/jimk/Documents/NTUA/semester9/multimedia/minesweepr/src/main/resources/com/example/minesweepr/";
+        String path = "src/main/resources/com/example/minesweepr/";
         String fileName = "rounds.txt";
 
         try (RandomAccessFile file = new RandomAccessFile(path+fileName, "r")) {
