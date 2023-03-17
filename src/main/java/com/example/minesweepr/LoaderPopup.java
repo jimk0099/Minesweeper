@@ -27,7 +27,6 @@ public class LoaderPopup extends Dialog<String> {
 
         DialogPane dialogPane = getDialogPane();
 
-        //GridPane gridPane = new GridPane();
         // Grid Settings
         gridPane.setHgap(10);
         gridPane.setVgap(10);

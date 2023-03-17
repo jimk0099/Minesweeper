@@ -21,3 +21,7 @@
 9, 3, 140, Computer
 9, 2, 140, Computer
 40, 6, 250, Computer
+45, 3, 300, Computer
+45, 4, 300, Computer
+11, 3, 130, Computer
+11, 3, 130, Computer

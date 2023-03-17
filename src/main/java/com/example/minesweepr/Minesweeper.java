@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -13,16 +12,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Minesweeper extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //FXMLLoader fxmlLoader = new FXMLLoader(Minesweeper.class.getResource("hello-view.fxml"));
-        //Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        //Scene scene = new Scene(Grid.makeGrid(10), 640, 640);
 
         Grid grid = new Grid(0);
         Pane pane = new Pane(grid.makeGrid(9));
@@ -31,8 +26,7 @@ public class Minesweeper extends Application {
         CustomMenu customMenu = new CustomMenu();
         customMenu.setMenuBar(customMenu.makeMenuBar());
 
-        HBox hBox = new HBox(customMenu.getMenuBar()); //, gameStatus.getMinesStatus(mines), gameStatus.getFlagStatus(grid));
-        //VBox vbox = new VBox(hBox, grid.makeGrid(gridSize));
+        HBox hBox = new HBox(customMenu.getMenuBar());
         VBox vBox = new VBox(hBox, pane);
         stage.setTitle("Minesweeper!");
         stage.setScene(new Scene(vBox));
@@ -153,7 +147,6 @@ public class Minesweeper extends Application {
                     @Override
                     public void handle(ActionEvent e) {
                         loaderPopup.test1();
-                        //System.out.println(loaderPopup.getGridPane().getChildren());
                         if (!loaderPopup.isShowing()) {
                             loaderPopup.show();
                         }
@@ -226,7 +219,6 @@ public class Minesweeper extends Application {
 
                                     }
                                 };
-                        //System.out.println(loaderPopup.getGridPane().getChildren());
                         Button button2 = (Button) loaderPopup.getGridPane().getChildren().get(1);
                         button2.setOnAction(eventLoaderSubmit);
 

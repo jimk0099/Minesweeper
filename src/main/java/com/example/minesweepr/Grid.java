@@ -2,7 +2,6 @@ package com.example.minesweepr;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -55,14 +54,11 @@ public class Grid extends Pane {
         } else {
             width = 56;
         }
-        //Pane p = new Pane();
         p = new Pane();
 
-        //Cell [][] cell = new Cell [n][n];
         cell = new Cell [n][n];
 
         Random random = new Random();
-//        int numberMines = random.nextInt(9,12);
 
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
@@ -143,14 +139,12 @@ public class Grid extends Pane {
         }
 
         p.setOnMouseClicked(me -> {
-            //System.out.println(me.getX());
             double posX = me.getX();
             double posY = me.getY();
 
             int colX = (int) (posX / width);
             int colY = (int) (posY / width);
 
-            //System.out.println();
             if(!cell[colX][colY].isDisabled()) {
 
                 if (me.getButton() == MouseButton.PRIMARY) {
