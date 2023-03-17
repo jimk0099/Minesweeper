@@ -10,3 +10,5 @@
 40, 2, 250, Computer
 11, 18, 133, Player
 9, 2, 140, Computer
+40, 6, 240, Computer
+40, 7, 240, Computer

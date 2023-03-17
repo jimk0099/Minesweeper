@@ -1,6 +1,5 @@
 package com.example.minesweepr;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,27 +13,64 @@ import javafx.util.Duration;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
+
+/**
+ * The class Game status extends Hbox.
+ * GameStatus Class returns all the components we need to show
+ * next to the menu bar. More specifically, we get for the current game
+ * the total mines, the total flags placed and the remaining time.
+ *
+ */
 public class GameStatus extends HBox {
 
     protected static Timeline timeline = new Timeline();
     protected static Label timeLabel = new Label();
     protected static Integer startingTime;
 
+
+    /**
+     *
+     * This is the constructor of the class.
+     * It resets the static variable timeline each time
+     * a new object of the class is created
+     *
+     * @return public
+     */
     public GameStatus() {
+
         timeline = new Timeline();
     }
 
+
+    /**
+     *
+     * Returns a Hbox that contains the number of total
+     * mines in the game that the player is currently playing.
+     *
+     * @param numOfMines  the num of mines
+     * @return the mines status
+     */
     public HBox getMinesStatus(int numOfMines) {
+
         HBox hBox = new HBox(new Text("Total Mines: " + numOfMines));
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(0, 15, 0, 15));
         return hBox;
     }
 
+
+    /**
+     *
+     * Returns a Hbox that contains the number of total
+     * flags that the user has placed. This value is dynamically
+     * updated as the user continues to place flags at runtime.
+     *
+     * @param grid  the grid
+     * @return the flag status
+     */
     public HBox getFlagStatus(Grid grid) {
+
         Text text = new Text();
         text.textProperty().bind(grid.getFlCells().asString());
         HBox hBox = new HBox(new Text("Flags Placed: "), text);
@@ -43,7 +79,19 @@ public class GameStatus extends HBox {
         return hBox;
     }
 
+
+    /**
+     *
+     * Returns a Hbox that contains the time remaining for the
+     * current game. The countdown timer updates every second and
+     * when it reaches zero, it ends the game sending the according
+     * message to the EndPopup.
+     *
+     * @param seconds  the seconds
+     * @return the timer status
+     */
     public HBox getTimerStatus(int seconds) {
+
 
         startingTime = seconds;
         SimpleIntegerProperty remainingTime = new SimpleIntegerProperty(startingTime);
@@ -86,6 +134,6 @@ public class GameStatus extends HBox {
 
         return hBox;
 
-        }
+    }
 
 }

@@ -103,7 +103,7 @@ public class RoundsPopup extends Dialog {
             for (String s : roundsList) {
                 HBox hBox = new HBox();
                 if (i % 2 == 0) {
-                    hBox.setBackground(new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY)));
+                    hBox.setBackground(new Background(new BackgroundFill(Color.valueOf("#E5E0FF"), CornerRadii.EMPTY, Insets.EMPTY)));
                 } else {
                     hBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 }
